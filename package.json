@@ -38,6 +38,7 @@
   "dependencies": {
     "assign-deep": "^1.0.0",
     "babel-eslint": "^8.2.6",
+    "emoji-utils": "^1.0.1",
     "expo": "^27.0.1",
     "firebase": "^5.4.0",
     "moment": "^2.22.2",
