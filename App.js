@@ -1,72 +1,43 @@
-import React from 'react';
-import { Platform } from 'react-native';
-import PropTypes from 'prop-types';
-import { GiftedChat } from 'react-native-gifted-chat';
-import emojiUtils from 'emoji-utils';
+import React, { Component } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import AppIntroSlider from 'react-native-app-intro-slider';
 
-import SlackMessage from './app/SlackMessage';
-
-export default class App extends React.Component {
-    state = {
-        messages: [],
-    };
-
-    componentWillMount() {
-        this.setState({
-            messages: [
-                {
-                    _id: 1,
-                    text: 'Hello developer',
-                    createdAt: new Date(),
-                    user: {
-                        _id: 2,
-                        name: 'React Native',
-                        avatar: './assets/g.jpeg'
-                    },
-                },
-            ],
-        })
+const styles = StyleSheet.create({
+    image: {
+        width: 320,
+        height: 320,
     }
+});
 
-    onSend(messages = []) {
-        this.setState(previousState => ({
-            messages: GiftedChat.append(previousState.messages, messages),
-        }))
+const slides = [
+    {
+        key: 'somethun',
+        title: 'Title 1',
+        text: 'Description.\nSay something cool',
+        image: require('./assets/intro/1.jpg'),
+        imageStyle: styles.image,
+        backgroundColor: '#59b2ab',
+    },
+    {
+        key: 'somethun-dos',
+        title: 'Title 2',
+        text: 'Other cool stuff',
+        image: require('./assets/intro/2.jpeg'),
+        imageStyle: styles.image,
+        backgroundColor: '#febe29',
+    },
+    {
+        key: 'somethun1',
+        title: 'Rocket guy',
+        text: 'I\'m already out of descriptions\n\nLorem ipsum bla bla bla',
+        image: require('./assets/intro/3.jpeg'),
+        imageStyle: styles.image,
+        backgroundColor: '#22bcb5',
     }
+];
 
-    static renderMessage(props) {
-        const { currentMessage: { text: currText } } = props;
-
-        let messageTextStyle;
-
-        // Make "pure emoji" messages much bigger than plain text.
-        if (currText && emojiUtils.isPureEmojiString(currText)) {
-            messageTextStyle = {
-                fontSize: 28,
-                // Emoji get clipped if lineHeight isn't increased; make it consistent across platforms.
-                lineHeight: Platform.OS === 'android' ? 34 : 30,
-            };
-        }
-
-        return (
-            <SlackMessage {...props} messageTextStyle={messageTextStyle} />
-        );
-    }
-
+export default class App extends Component {
     render() {
-        return (
-            <GiftedChat
-                messages={this.state.messages}
-                onSend={messages => this.onSend(messages)}
-                alwaysShowSend
-                isAnimated
-                showUserAvatar
-                user={{
-                    _id: 1,
-                }}
-                renderMessage={this.renderMessage}
-            />
-        );
+        return <AppIntroSlider slides={slides} onDone={this._onDone}/>;
     }
-
 }
