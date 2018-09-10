@@ -1,30 +1,49 @@
 import * as React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { List } from 'react-native-paper';
+import Spinner from 'react-native-loading-spinner-overlay';
 import Main from '../main';
+import { readCollectionByName } from "../firebase/firebase";
 
 class SelectUser extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            username: null,
+            userInfo: null,
+            isSpinning: false
+        };
         this.onUserClick = this.onUserClick.bind(this);
     }
 
-    componentWillMount() {
-        this.setState({ user: null });
-    }
+    onUserClick(username) {
+        this.setState({
+            username,
+            isSpinning: false
+        });
 
-    onUserClick(user) {
-        this.setState({ user });
+        readCollectionByName('users', username)
+            .then(userInfo => {
+                this.setState({
+                    userInfo,
+                    isSpinning: false
+                });
+            });
     }
 
     render() {
-        if (this.state.user !== null) {
-            return <Main user={this.state.user} />;
+        if (this.state.userInfo !== null) {
+            return <Main userInfo={this.state.userInfo} />;
         } else {
             return (
                 <View
                     style={[ styles.container ]}
                 >
+                    <Spinner
+                        visible={this.state.isSpinning}
+                        textContent={"Loading..."}
+                        textStyle={{ color: '#FFF' }}
+                    />
                     <List.Section title="Select your role">
                         <List.Item
                             title="Seller"

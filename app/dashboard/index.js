@@ -7,8 +7,8 @@ export default class Dashboard extends React.Component {
         return (
             <Appbar.Header>
                 <Appbar.Content
-                    title={this.props.user}
-                    subtitle="Subtitle"
+                    title={this.props.userInfo.id}
+                    subtitle={this.props.userInfo.description}
                 />
                 <Appbar.Action icon="search" onPress={this._onSearch} />
                 <Appbar.Action icon="more-vert" onPress={this._onMore} />
@@ -18,5 +18,17 @@ export default class Dashboard extends React.Component {
 }
 
 Dashboard.propTypes = {
-    user: PropTypes.string.isRequired
+    userInfo: PropTypes.shape({
+        id: PropTypes.string,
+        description: PropTypes.string,
+        avatarUrl: PropTypes.string,
+    })
+};
+
+Dashboard.defaultProps = {
+    userInfo: {
+        id: '',
+        description: '',
+        avatarUrl: '',
+    }
 };
