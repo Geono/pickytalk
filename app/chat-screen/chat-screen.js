@@ -2,8 +2,7 @@ import React from 'react';
 import { Platform } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
 import emojiUtils from 'emoji-utils';
-import PropTypes from 'prop-types';
-import { getAvatar } from '../helper/helper';
+import { getAvatar } from '../helper';
 
 import SlackMessage from './SlackMessage';
 

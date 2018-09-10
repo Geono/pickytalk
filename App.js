@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
+import SelectUser from './app/select-user';
+import Main from './app/main';
 
 const styles = StyleSheet.create({
     image: {
@@ -37,7 +39,24 @@ const slides = [
 ];
 
 export default class App extends Component {
+    constructor() {
+        super();
+        this._onDone = this._onDone.bind(this);
+    }
+
+    componentWillMount() {
+        this.setState({ showRealApp: false });
+    }
+
+    _onDone() {
+        this.setState({ showRealApp: true });
+    }
+
     render() {
-        return <AppIntroSlider slides={slides} onDone={this._onDone}/>;
+        //if (this.state.showRealApp) {
+            return <SelectUser />;
+        //} else {
+            //return <AppIntroSlider slides={slides} onDone={this._onDone} />;
+        //}
     }
 }

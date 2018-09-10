@@ -1,5 +1,5 @@
 import React from 'react';
-import App from './app/chat/App';
+import App from './app/chat-screen/App';
 
 import renderer from 'react-test-renderer';
 
