@@ -19,8 +19,12 @@ firestore // Do not remove this
 const settings = { timestampsInSnapshots: true };
 db.settings(settings);
 
-export default function readAllUsers() {
-    var users = db.collection("users");
+export function getDb() {
+    return db;
+}
+
+export function readAllUsers() {
+    const users = db.collection("users");
     users.get().then(function (querySnapshot) {
         querySnapshot.forEach(function (doc) {
             console.log(doc.id, " => ", doc.data());
@@ -28,8 +32,39 @@ export default function readAllUsers() {
     });
 }
 
-export function readCollectionByName(collection, name) {
-    var docRef = db.collection(collection).doc(name);
+export function readCollectionById(collection, name) {
+    const docRef = db.collection(collection).doc(name);
+    return new Promise((resolve, reject) => {
+        docRef.get().then((doc) => {
+            resolve(doc.data());
+        }).catch(function(error) {
+            reject(error);
+        });
+    });
+}
+
+export function readCollectionByCondition(collection, attribute, value) {
+    const docRef = db.collection(collection);
+    const query = docRef.where(attribute, '==', value);
+    return new Promise((resolve, reject) => {
+        query.get().then(function(results) {
+            if(results.empty) {
+                reject("No documents found!");
+            } else {
+                const result = [];
+                results.forEach(function (doc) {
+                    result.push(doc.data());
+                });
+                resolve(result);
+            }
+        }).catch(function(error) {
+            reject(error);
+        });
+    });
+}
+
+export function readCollection(collection, name) {
+    const docRef = db.collection(collection).doc(name);
     return new Promise((resolve, reject) => {
         docRef.get().then((doc) => {
             resolve(doc.data());

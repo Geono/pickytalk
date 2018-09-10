@@ -1,10 +1,10 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { BottomNavigation, DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
+import { withTheme, BottomNavigation, DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import Dashboard from '../dashboard';
 import ChatList from '../chat-list';
 
-export default class Main extends React.Component {
+class Main extends React.Component {
 
     state = {
         index: 0,
@@ -24,19 +24,18 @@ export default class Main extends React.Component {
     render() {
 
         let theme = {
-            ...DefaultTheme,
+            ...DefaultTheme
         };
 
         // 셀러의 경우 오렌지색
-        if (this.props.user === 'seller') {
-            theme = {
-                ...DefaultTheme,
+        if (this.props.userInfo.id === 'ottugi0') {
+            Object.assign(theme, {
                 colors: {
                     ...DefaultTheme.colors,
                     primary: 'tomato',
                     accent: 'yellow',
                 },
-            };
+            });
         }
 
         return (
@@ -58,3 +57,6 @@ Main.propTypes = {
         avatarUrl: PropTypes.string.isRequired,
     }).isRequired
 };
+
+
+export default withTheme(Main);

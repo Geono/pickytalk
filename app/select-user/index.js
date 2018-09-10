@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { List } from 'react-native-paper';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Main from '../main';
-import { readCollectionByName } from "../firebase/firebase";
+import { readCollectionById } from "../firebase/firebase";
 
 class SelectUser extends React.Component {
     constructor(props) {
@@ -22,7 +22,7 @@ class SelectUser extends React.Component {
             isSpinning: false
         });
 
-        readCollectionByName('users', username)
+        readCollectionById('users', username)
             .then(userInfo => {
                 this.setState({
                     userInfo,
