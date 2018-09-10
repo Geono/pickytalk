@@ -39,7 +39,7 @@
     "assign-deep": "^1.0.0",
     "babel-eslint": "^8.2.6",
     "expo": "^27.0.1",
-    "firebase": "^5.4.0",
+    "firebase": "^5.4.2",
     "moment": "^2.22.2",
     "numeral": "^2.0.6",
     "prop-types": "^15.6.2",
