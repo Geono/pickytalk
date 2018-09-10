@@ -53,6 +53,7 @@ export default class App extends Component {
     }
 
     render() {
+        console.log('test');
         //if (this.state.showRealApp) {
             return <SelectUser />;
         //} else {
