@@ -43,7 +43,7 @@ class ChatList extends React.Component {
                     (<List.Item
                         key={data.title + data.upd_date}
                         title={data.title}
-                        description={data.last_sentence}
+                        description={data.user_id.join(', ')}
                         onPress={() => {
                             this.props.navigation.navigate('ChatScreen', {
                                 conversationId: data.conversation_id,
