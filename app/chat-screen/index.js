@@ -202,11 +202,14 @@ export default class ChatScreen extends React.Component {
                             JSON.parse(autoGenResp);
                         } catch (e) {
                             if (autoGenResp) {
-                                this.setState({ sentAutogen: true });
-                                this.currentUser.sendMessage({
-                                    text: '@' + autoGenResp,
-                                    roomId: CHATKIT_ROOM_ID
-                                });
+                                let finalText = autoGenResp;
+                                if(finalText !== 'End') {
+                                    this.setState({ sentAutogen: true });
+                                    this.currentUser.sendMessage({
+                                        text: '@[자동응답] ' + finalText,
+                                        roomId: CHATKIT_ROOM_ID
+                                    });
+                                }
                             }
                         }
                     });
