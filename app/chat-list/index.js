@@ -53,7 +53,9 @@ class ChatList extends React.Component {
 						onPress={() => {
 							this.props.navigation.navigate('ChatScreen', {
 								conversationId: data.conversation_id,
-								roomId: data.room_id
+								roomId: data.room_id,
+								title: data.title,
+								description: data.user_id.join(', ')
 							});
 						}}
 						left={() =>
