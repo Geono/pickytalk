@@ -2,8 +2,8 @@ import * as React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { List } from 'react-native-paper';
 import Spinner from 'react-native-loading-spinner-overlay';
-import Main from '../main';
 import { readCollectionById } from "../firebase/firebase";
+import Present from '../present';
 
 class SelectUser extends React.Component {
     constructor(props) {
@@ -33,7 +33,7 @@ class SelectUser extends React.Component {
 
     render() {
         if (this.state.userInfo !== null) {
-            return <Main userInfo={this.state.userInfo} />;
+            return <Present userInfo={this.state.userInfo} />;
         } else {
             return (
                 <View

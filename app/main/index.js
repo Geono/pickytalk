@@ -32,7 +32,7 @@ class Main extends React.Component {
             Object.assign(theme, {
                 colors: {
                     ...DefaultTheme.colors,
-                    primary: 'tomato',
+                    primary: '#febe29',
                     accent: 'yellow',
                 },
             });
