@@ -27,7 +27,6 @@ class Main extends React.Component {
             ...DefaultTheme
         };
 
-        // 셀러의 경우 오렌지색
         if (this.props.userInfo.user_id === 'ottugi0') {
             Object.assign(theme, {
                 colors: {
