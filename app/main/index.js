@@ -27,7 +27,7 @@ class Main extends React.Component {
             ...DefaultTheme
         };
 
-        if (this.props.userInfo.user_id === 'ottugi0') {
+        if (this.props.userInfo.user_id !== 'ottugi0') {
             Object.assign(theme, {
                 colors: {
                     ...DefaultTheme.colors,

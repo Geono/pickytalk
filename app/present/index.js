@@ -38,36 +38,44 @@ export default class Present extends Component {
 
         const slides = [
             {
-                key: 'somethun',
-                title: 'Title 1',
-                text: 'Description.\nSay something cool',
+                key: isSeller ? 'seller1' : 'am1',
+                title: isSeller ? 'Seller' : 'Account Manager',
+                text: isSeller ?
+                    '궁금한 것도 많고, \n상품 제안도 하고 싶어요!':
+                    '특가 제안은 언제든 환영!',
                 image: isSeller ? seller1 : am1,
                 imageStyle: styles.image,
-                backgroundColor: !isSeller ? '#59b2ab' : '#febe29',
+                backgroundColor: isSeller ? '#59b2ab' : '#febe29',
             },
             {
-                key: 'somethun-dos',
-                title: 'Title 2',
-                text: 'Other cool stuff',
+                key: isSeller ? 'seller2' : 'am2',
+                title: isSeller ? 'Seller' : 'Account Manager',
+                text: isSeller ?
+                    '한시가 급한데, 피드백이 빨리 안와요' :
+                    '딜 세팅, 실적 관리도 해야 하는데...\n판매자 문의까지 ㅠㅠ',
                 image: isSeller ? seller2 : am2,
                 imageStyle: styles.image,
-                backgroundColor: !isSeller ? '#59b2ab' : '#febe29',
+                backgroundColor: isSeller ? '#59b2ab' : '#febe29',
             },
             {
-                key: 'somethun2',
-                title: 'Rocket guy',
-                text: 'I\'m already out of descriptions\n\nLorem ipsum bla bla bla',
+                key: isSeller ? 'seller3' : 'am3',
+                title: isSeller ? 'Seller' : 'Account Manager',
+                text: isSeller ?
+                    '갑자기 매출이 떨어진 이유를 모르겠어요':
+                    '어제까지 연락하던 담당자가 퇴사?!',
                 image: isSeller ? seller3 : am3,
                 imageStyle: styles.image,
-                backgroundColor: !isSeller ? '#59b2ab' : '#febe29',
+                backgroundColor: isSeller ? '#59b2ab' : '#febe29',
             },
             {
-                key: 'somethun3',
-                title: 'Rocket guy',
-                text: 'I\'m already out of descriptions\n\nLorem ipsum bla bla bla',
+                key: isSeller ? 'seller4' : 'am4',
+                title: isSeller ? 'Seller' : 'Account Manager',
+                text: isSeller ?
+                    '자연어로 물어봐도 자동 답변 가능!':
+                    '전에 없이 간편한 판매자와의 소통',
                 image: isSeller ? seller4 : am4,
                 imageStyle: styles.image,
-                backgroundColor: !isSeller ? '#59b2ab' : '#febe29',
+                backgroundColor: isSeller ? '#59b2ab' : '#febe29',
             }
         ];
 
