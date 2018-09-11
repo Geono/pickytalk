@@ -1,47 +1,51 @@
 import * as React from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Appbar, Colors, List, withTheme } from 'react-native-paper';
+import { View } from 'react-native';
+import PropTypes from 'prop-types';
+import Header from '../header';
+import {getDb} from '../firebase/firebase';
 
-const ChatList = () => (
-    <View
-        style={[ styles.container ]}
-    >
-        <Appbar.Header>
-            <Appbar.Content
-                title="Title"
-                subtitle="Subtitle"
-            />
-        </Appbar.Header>
-        <List.Item
-            title="First Item"
-            description="Item description"
-            left={props => <List.Icon {...props} icon="chat" />}
-        />
-    </View>
-);
+export default class ChatList extends React.Component {
+    componentDidMount() {
+        const conversationsList = getDb().collection('conversations-list');
+        const userInfo = this.props.userInfo;
+        conversationsList.get().then(querySnapshot => {
+            var results = [];
+            querySnapshot.forEach(function(doc) {
+                const data = doc.data();
+                if(data.user_id &&
+                    data.user_id.includes(userInfo.id)) {
+                    results.push(data);
+                }
+            });
+            return results;
+        }).then(results => {
+            console.log(results);
+        }).catch(function (error) {
+            console.log(error);
+        });
+    }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    row: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        paddingVertical: 8,
-        paddingHorizontal: 16,
-    },
-    bottom: {
-        position: 'absolute',
-        left: 0,
-        right: 0,
-        bottom: 0,
-    },
-    fab: {
-        position: 'absolute',
-        right: 16,
-        bottom: 28,
-    },
-});
+    render() {
+        return (
+            <View>
+                <Header userInfo={this.props.userInfo} />
+            </View>
+        );
+    }
+}
 
-export default withTheme(ChatList);
+ChatList.propTypes = {
+    userInfo: PropTypes.shape({
+        id: PropTypes.string,
+        description: PropTypes.string,
+        avatarUrl: PropTypes.string,
+    })
+};
+
+ChatList.defaultProps = {
+    userInfo: {
+        id: '',
+        description: '',
+        avatarUrl: '',
+    }
+};
