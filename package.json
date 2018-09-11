@@ -37,6 +37,7 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "@pusher/chatkit": "^0.7.17",
     "assign-deep": "^1.0.0",
     "babel-eslint": "^8.2.6",
     "emoji-utils": "^1.0.1",

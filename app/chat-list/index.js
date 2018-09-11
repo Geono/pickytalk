@@ -8,12 +8,6 @@ import Header from '../header';
 import { getDb } from '../firebase/firebase';
 
 class ChatList extends React.Component {
-    static navigationOptions = {
-        header: {
-            visible: false,
-        }
-    };
-
     constructor(props) {
         super(props);
         this.state = {
@@ -52,7 +46,8 @@ class ChatList extends React.Component {
                         description={data.last_sentence}
                         onPress={() => {
                             this.props.navigation.navigate('ChatScreen', {
-                                conversationId: data.conversation_id
+                                conversationId: data.conversation_id,
+                                roomId: data.room_id
                             });
                         }}
                         left={props => <List.Icon {...props} icon="chat" />}
