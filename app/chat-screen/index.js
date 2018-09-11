@@ -15,6 +15,8 @@ const CHATKIT_TOKEN_PROVIDER_ENDPOINT = 'https://us1.pusherplatform.io/services/
 const CHATKIT_INSTANCE_LOCATOR = 'v1:us1:a687febe-9212-453c-bc99-909bf4c4db90';
 let CHATKIT_ROOM_ID;
 let CHATKIT_USER_NAME;
+let CHATKIT_USER_TITLE;
+let CHATKIT_USER_DESCRIPTION;
 
 export default class ChatScreen extends React.Component {
     state = {
@@ -38,6 +40,8 @@ export default class ChatScreen extends React.Component {
         const { navigation } = this.props;
         CHATKIT_USER_NAME = this.props.screenProps.userInfo.user_id;
         let messages;
+        CHATKIT_USER_TITLE = navigation.getParam('title');
+        CHATKIT_USER_DESCRIPTION = navigation.getParam('description');
 
         // 4. Setup Chat
         // This will create a `tokenProvider` object. This object will be later used to make a Chatkit Manager instance.
@@ -245,8 +249,8 @@ export default class ChatScreen extends React.Component {
                         onPress={() => this.props.navigation.goBack()}
                     />
                     <Appbar.Content
-                        title='샘플이다'
-                        subtitle='this is just a sample'
+                        title={CHATKIT_USER_TITLE}
+                        subtitle={CHATKIT_USER_DESCRIPTION}
                     />
                 </Appbar.Header>
                 <GiftedChat
