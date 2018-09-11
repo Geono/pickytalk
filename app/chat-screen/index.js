@@ -101,10 +101,17 @@ export default class ChatScreen extends React.Component {
                 messages.forEach(message => {
                     lastMessageId = message._id;
                     const userInfoData = userInfoMap[ message.user.name ];
-                    Object.assign(message.user, {
-                        _id: userInfoData.id,
-                        avatar: userInfoData.avatarUrl
-                    })
+                    if(userInfoData) {
+                        Object.assign(message.user, {
+                            _id: userInfoData.id,
+                            avatar: userInfoData.avatarUrl
+                        });
+                    } else {
+                        Object.assign(message.user, {
+                            _id: message.user.name,
+                            avatar: 'https://placeimg.com/640/480/any'
+                        });
+                    }
                 });
 
                 messages.reverse();
