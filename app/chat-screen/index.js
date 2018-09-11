@@ -19,6 +19,8 @@ let CHATKIT_USER_NAME;
 export default class ChatScreen extends React.Component {
     state = {
         messages: [],
+        sentAutogen: false,
+        lastSent: ''
     };
 
     constructor(props) {
@@ -58,7 +60,7 @@ export default class ChatScreen extends React.Component {
 
             this.currentUser.fetchMessages({
                 roomId: CHATKIT_ROOM_ID,
-                direction: 'newer',
+                direction: 'older',
                 limit: 100,
             }).then(fetchedMessages => {
 
@@ -135,6 +137,9 @@ export default class ChatScreen extends React.Component {
                 text: message.text,
                 roomId: CHATKIT_ROOM_ID
             });
+            this.setState({
+                lastSent: message.text
+            })
         });
     }
 
@@ -175,16 +180,25 @@ export default class ChatScreen extends React.Component {
                     messages: GiftedChat.append(previousState.messages, incomingMessage)
                 }));
 
+                if(text === this.state.lastSent) {
+                    return;
+                }
+
                 /************************
                  * ANALYZE PART!!!!!!!! *
                  ************************/
-                if (shouldBeAnalyzed) {
+                if (shouldBeAnalyzed && !this.state.sentAutogen) {
                     getBotResponse(text).then(dialogFlowResp => {
-                        const autoGenResp = dialogFlowResp.queryResult.fulfillmentMessages[ 0 ].text.text[ 0 ];
+                        const autoGenResp = dialogFlowResp
+                            .queryResult
+                            .fulfillmentMessages[ 0 ]
+                            .text
+                            .text[ 0 ];
                         try {
                             JSON.parse(autoGenResp);
-                        } catch(e) {
+                        } catch (e) {
                             if (autoGenResp) {
+                                this.setState({ sentAutogen: true });
                                 this.currentUser.sendMessage({
                                     text: '@' + autoGenResp,
                                     roomId: CHATKIT_ROOM_ID
@@ -193,6 +207,9 @@ export default class ChatScreen extends React.Component {
                         }
                     });
                 }
+
+                if (this.state.sentAutogen)
+                    this.setState({ sentAutogen: false });
             });
     }
 
