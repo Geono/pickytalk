@@ -149,7 +149,7 @@ export default class ChatScreen extends React.Component {
         let text = data.text;
         let shouldBeAnalyzed = true;
 
-        if (text.charAt(0) === '@') {
+        if (text.charAt(0) === '@' || text.charAt(0) === '!') {
             shouldBeAnalyzed = false;
             text = text.substring(1);
         }
