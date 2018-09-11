@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, View } from 'react-native';
+import { Platform, View, Linking } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
 import emojiUtils from 'emoji-utils';
 import { Appbar } from 'react-native-paper';
@@ -232,6 +232,11 @@ export default class ChatScreen extends React.Component {
         );
     }
 
+    handleUrlPressed(url) {
+        console.log('url', url);
+        Linking.openURL(url);
+    }
+
     render() {
         return (
             <View style={{ flex: 1 }}>
@@ -254,6 +259,9 @@ export default class ChatScreen extends React.Component {
                         _id: this.props.screenProps.userInfo.id,
                         _avatar: getAvatar('haha')
                     }}
+                    parsePatterns={(linkStyle) => [
+                        { type: 'url', style: linkStyle, onPress: this.handleUrlPressed },
+                        ]}
                     renderMessage={this.renderMessage}
                 />
             </View>
