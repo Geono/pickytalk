@@ -10,7 +10,8 @@ export default class Dashboard extends React.Component {
 
 Dashboard.propTypes = {
     userInfo: PropTypes.shape({
-        id: PropTypes.string,
+        _id: PropTypes.number,
+        user_id: PropTypes.string,
         description: PropTypes.string,
         avatarUrl: PropTypes.string,
     })
@@ -18,7 +19,8 @@ Dashboard.propTypes = {
 
 Dashboard.defaultProps = {
     userInfo: {
-        id: '',
+        _id: -1,
+        user_id: '',
         description: '',
         avatarUrl: '',
     }

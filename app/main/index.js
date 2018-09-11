@@ -28,7 +28,7 @@ class Main extends React.Component {
         };
 
         // 셀러의 경우 오렌지색
-        if (this.props.userInfo.id === 'ottugi0') {
+        if (this.props.userInfo.user_id === 'ottugi0') {
             Object.assign(theme, {
                 colors: {
                     ...DefaultTheme.colors,
@@ -52,7 +52,8 @@ class Main extends React.Component {
 
 Main.propTypes = {
     userInfo: PropTypes.shape({
-        id: PropTypes.string.isRequired,
+        id: PropTypes.number.isRequired,
+        user_id: PropTypes.string.isRequired,
         description: PropTypes.string.isRequired,
         avatarUrl: PropTypes.string.isRequired,
     }).isRequired

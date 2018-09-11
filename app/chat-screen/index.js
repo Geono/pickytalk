@@ -44,10 +44,8 @@ export default class ChatScreen extends React.Component {
                     return {
                         _id: index,
                         text: chatData.text,
-                        createdAt: chatData.createdAt,
-                        user: {
-                            _id: chatData.user_id,
-                        }
+                        createdAt: chatData.createdAt.toDate(),
+                        user_id: chatData.user_id
                     }
                 });
 
@@ -56,7 +54,7 @@ export default class ChatScreen extends React.Component {
                     promises.push(
                         getDb()
                             .collection('users')
-                            .where('id', '==', userId)
+                            .where('user_id', '==', userId)
                             .get());
                 });
                 return Promise.all(promises);
@@ -66,25 +64,26 @@ export default class ChatScreen extends React.Component {
             resultsList.map(results => {
                 results.forEach(doc => {
                     const userInfo = doc.data();
-                    userInfoMap[ userInfo.id ] = userInfo;
+                    userInfoMap[ userInfo.user_id ] = userInfo;
                 });
             });
 
             // 3. Merge userinfo into messages
             messages = messages.map(message => {
-                const userInfoOfMessage = userInfoMap[ message.user._id ];
+                const userInfoOfMessage = userInfoMap[ message.user_id ];
                 return Object.assign(message, {
                     user: {
+                        _id: userInfoOfMessage.id,
                         avatar: userInfoOfMessage.avatarUrl
                     }
                 })
             });
 
             this.setState({ messages });
+
         }).catch(error => {
             console.log(error);
         });
-
     }
 
     onSend(messages = []) {
@@ -113,9 +112,8 @@ export default class ChatScreen extends React.Component {
     }
 
     render() {
-        console.log(this.state.messages);
         return (
-            <View>
+            <View style={{flex: 1}}>
                 <Appbar.Header>
                     <Appbar.BackAction
                         onPress={() => this.props.navigation.goBack()}
@@ -132,7 +130,7 @@ export default class ChatScreen extends React.Component {
                     isAnimated
                     showUserAvatar
                     user={{
-                        _id: 1,
+                        _id: this.props.screenProps.userInfo.id,
                         _avatar: getAvatar('haha')
                     }}
                     renderMessage={this.renderMessage}

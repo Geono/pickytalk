@@ -16,7 +16,7 @@ export default class Header extends React.Component {
                     source={{ uri: this.props.userInfo.avatarUrl }}
                 />
                 <Appbar.Content
-                    title={this.props.userInfo.id}
+                    title={this.props.userInfo.user_id}
                     subtitle={this.props.userInfo.description}
                 />
                 <Appbar.Action icon="search" onPress={this._onSearch} />
@@ -28,7 +28,8 @@ export default class Header extends React.Component {
 
 Header.propTypes = {
     userInfo: PropTypes.shape({
-        id: PropTypes.string,
+        _id: PropTypes.string,
+        user_id: PropTypes.string,
         description: PropTypes.string,
         avatarUrl: PropTypes.string,
     })
@@ -36,7 +37,8 @@ Header.propTypes = {
 
 Header.defaultProps = {
     userInfo: {
-        id: '',
+        _id: -1,
+        user_id: '',
         description: '',
         avatarUrl: '',
     }

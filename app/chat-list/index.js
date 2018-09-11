@@ -29,7 +29,7 @@ class ChatList extends React.Component {
             querySnapshot.forEach(function (doc) {
                 const data = doc.data();
                 if (data.user_id &&
-                    data.user_id.includes(userInfo.id)) {
+                    data.user_id.includes(userInfo.user_id)) {
                     results.push(data);
                 }
             });
