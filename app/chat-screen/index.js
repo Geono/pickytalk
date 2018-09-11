@@ -101,7 +101,7 @@ export default class ChatScreen extends React.Component {
                 messages.forEach(message => {
                     lastMessageId = message._id;
                     const userInfoData = userInfoMap[ message.user.name ];
-                    if(userInfoData) {
+                    if (userInfoData) {
                         Object.assign(message.user, {
                             _id: userInfoData.id,
                             avatar: userInfoData.avatarUrl
@@ -139,7 +139,16 @@ export default class ChatScreen extends React.Component {
     }
 
     onReceive(data) {
-        const { id, senderId, text, createdAt } = data;
+        const { id, senderId, createdAt } = data;
+
+        let text = data.text;
+        let shouldBeAnalyzed = true;
+
+        if (text.charAt(0) === '@') {
+            shouldBeAnalyzed = false;
+            text = text.substring(1);
+        }
+
         const incomingMessage = {
             _id: id,
             text: text,
@@ -161,15 +170,30 @@ export default class ChatScreen extends React.Component {
                     });
                 });
 
-                return getBotResponse(text)
-            })
-            .then(dialogFlowResp => {
-                console.log('dialogFlowResp: ', dialogFlowResp);
-            });
-        /*        // 2. append it to message
+                // 2. append it to message
                 this.setState(previousState => ({
                     messages: GiftedChat.append(previousState.messages, incomingMessage)
-                }));*/
+                }));
+
+                /************************
+                 * ANALYZE PART!!!!!!!! *
+                 ************************/
+                if (shouldBeAnalyzed) {
+                    getBotResponse(text).then(dialogFlowResp => {
+                        const autoGenResp = dialogFlowResp.queryResult.fulfillmentMessages[ 0 ].text.text[ 0 ];
+                        try {
+                            JSON.parse(autoGenResp);
+                        } catch(e) {
+                            if (autoGenResp) {
+                                this.currentUser.sendMessage({
+                                    text: '@' + autoGenResp,
+                                    roomId: CHATKIT_ROOM_ID
+                                });
+                            }
+                        }
+                    });
+                }
+            });
     }
 
     static renderMessage(props) {
