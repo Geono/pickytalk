@@ -44,8 +44,8 @@ class ChatList extends React.Component {
 
 		return (
 			<View>
-				<Header userInfo={this.props.screenProps.userInfo}/>
-				{this.state.list !== null && this.state.list.map(data =>
+				<Header userInfo={this.props.screenProps.userInfo} />
+				{this.state.list !== null && this.state.list.map((data, index) =>
 					(<List.Item
 						key={data.title + data.upd_date}
 						title={data.title}
@@ -66,6 +66,14 @@ class ChatList extends React.Component {
 								/>
 							)
 						}
+                        right={() => index === 0 ?
+                            (
+                                <Image
+                                    style={{marginTop: 5, width: 10, height: 10, borderRadius: 5}}
+                                    source={require('../../assets/avatar/red.png')}
+                                />
+                            ) : false
+                        }
 					/>)
 				)}
 			</View>

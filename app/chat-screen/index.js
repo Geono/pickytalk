@@ -154,10 +154,12 @@ export default class ChatScreen extends React.Component {
 
     onSend(messages = []) {
         messages.forEach(message => {
+
             this.currentUser.sendMessage({
                 text: message.text,
                 roomId: CHATKIT_ROOM_ID
             });
+
             this.setState({
                 lastSent: message.text
             })
@@ -223,7 +225,7 @@ export default class ChatScreen extends React.Component {
                  * ANALYZE PART!!!!!!!! *
                  ************************/
                 const userId = this.props.screenProps.userInfo.user_id;
-                if (userId !== 'ottugi0' /* 받는 사람이 AM일 때만 자동응답 */
+                if (userId === 'test1004' /* 받는 사람이 AM일 때만 자동응답 */
                     && shouldBeAnalyzed && !this.state.sentAutogen) {
                     getBotResponse(text).then(dialogFlowResp => {
                         const autoGenResp = dialogFlowResp
