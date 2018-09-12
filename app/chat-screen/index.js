@@ -107,7 +107,14 @@ export default class ChatScreen extends React.Component {
                 messages.forEach(message => {
                     lastMessageId = message._id;
                     const userInfoData = userInfoMap[ message.user.name ];
-                    if (userInfoData) {
+                    if(message.text.charAt(0) === '!' || message.text.charAt(0) === '@') {
+                        message.text = message.text.substring(1);
+                        Object.assign(message.user, {
+                            _id: 5,
+                            avatar: 'https://raw.githubusercontent.com/Geono/pickytalk/master/assets/avatar/g.jpeg'
+                        });
+                    }
+                    else if (userInfoData) {
                         Object.assign(message.user, {
                             _id: userInfoData.id,
                             avatar: userInfoData.avatarUrl
@@ -148,15 +155,19 @@ export default class ChatScreen extends React.Component {
     }
 
     onReceive(data) {
-        const { id, senderId, createdAt } = data;
+        const { id, createdAt } = data;
 
         let text = data.text;
         let shouldBeAnalyzed = true;
+        let isNotice = false;
 
         if (text.charAt(0) === '@' || text.charAt(0) === '!') {
+            isNotice = true;
             shouldBeAnalyzed = false;
             text = text.substring(1);
         }
+
+        let senderId = isNotice ? 'gmarket' : data.senderId;
 
         const incomingMessage = {
             _id: id,
@@ -191,7 +202,9 @@ export default class ChatScreen extends React.Component {
                 /************************
                  * ANALYZE PART!!!!!!!! *
                  ************************/
-                if (shouldBeAnalyzed && !this.state.sentAutogen) {
+                const userId = this.props.screenProps.userInfo.user_id;
+                if (userId !== 'ottugi0' /* 받는 사람이 AM일 때만 자동응답 */
+                    && shouldBeAnalyzed && !this.state.sentAutogen) {
                     getBotResponse(text).then(dialogFlowResp => {
                         const autoGenResp = dialogFlowResp
                             .queryResult
