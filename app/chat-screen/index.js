@@ -125,6 +125,16 @@ export default class ChatScreen extends React.Component {
                             avatar: 'https://placeimg.com/640/480/any'
                         });
                     }
+
+                    try {
+                        const jsonObj = JSON.parse(message.text);
+                        if(jsonObj.image) {
+                            message.text = jsonObj.text;
+                            message.image = jsonObj.image;
+                        }
+                    } catch(error) {
+                        console.log('Not an JSON object');
+                    }
                 });
 
                 messages.reverse();
@@ -177,6 +187,16 @@ export default class ChatScreen extends React.Component {
                 name: senderId
             }
         };
+
+        try {
+            const jsonObj = JSON.parse(incomingMessage.text);
+            if(jsonObj.image) {
+                incomingMessage.text = jsonObj.text;
+                incomingMessage.image = jsonObj.image;
+            }
+        } catch(error) {
+            console.log('Not an JSON object');
+        }
 
         getDb().collection('users').where('user_id', '==', senderId).get()
             .then(results => {
